@@ -1,5 +1,5 @@
-import { View, StyleSheet, FlatList, TextInput, SafeAreaView } from 'react-native';
-import { useState, useMemo } from 'react';
+import { View, Text, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import { useMemo } from 'react';
 import { Colors } from '@/constants/Colors';
 import PokemonCard from '@/components/PokemonCard';
 import { Typography } from '@/constants/Typography';
@@ -27,30 +27,23 @@ const TYPE_COLORS: Record<string, string> = {
   '드래곤': '#0001b7',
 };
 
-export default function HomeScreen() {
-  const [search, setSearch] = useState('');
+export default function RaidScreen() {
 
+  // Mocking highly rated raid pokemons (just arbitrary strong types like Fire/Water/Fighting)
   const filteredData = useMemo(() => {
     return pokedexData.filter((item: any) => 
-      item.name.includes(search) || item.no.toString() === search
-    ); 
-  }, [search]);
+      item.types.includes('격투') || item.types.includes('에스퍼') || item.types.includes('불꽃')
+    ).slice(0, 15);
+  }, []);
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        {/* Search Bar matching Stitch design exactly */}
-        <View style={styles.searchContainer}>
-          <TextInput
-            placeholder="포켓몬 검색"
-            placeholderTextColor={Colors.onSurfaceVariant}
-            style={styles.searchInput}
-            value={search}
-            onChangeText={setSearch}
-          />
+        <View style={styles.header}>
+          <Text style={Typography.headlineLg}>레이드 추천</Text>
+          <Text style={styles.subtitle}>현재 진행 중인 5성 레이드에서 가장 높은 DPS를 기록하는 포켓몬 목록입니다.</Text>
         </View>
 
-        {/* Pokemon List */}
         <FlatList
           data={filteredData}
           keyExtractor={(item) => item.no}
@@ -81,28 +74,29 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: Colors.surface, // Background #f9f9f9
+    backgroundColor: Colors.surface,
     paddingTop: 16,
   },
   container: {
     flex: 1,
-    paddingHorizontal: 20, // Clean breathing room
+    paddingHorizontal: 20,
   },
-  searchContainer: {
-    marginVertical: 16,
-    borderRadius: 8, // Rounded Eight
-    backgroundColor: Colors.surfaceContainerHigh, // #e8e8e8
-    paddingHorizontal: 16,
-    paddingVertical: 14, // Touch target improvements
-    borderWidth: 0, // No 1px lines
+  header: {
+    marginTop: 24,
+    marginBottom: 24,
+    paddingBottom: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.surfaceContainer,
   },
-  searchInput: {
-    ...Typography.labelMd, // Stitch specs say label-md
-    color: Colors.onSurface,
+  subtitle: {
+    ...Typography.bodyMd,
+    color: Colors.onSurfaceVariant,
+    marginTop: 8,
+    lineHeight: 24,
   },
   listContainer: {
-    paddingTop: 24,
+    paddingTop: 10,
     paddingBottom: 40,
-    gap: 10, // 2.5 (0.625rem) vertical gap rule
+    gap: 10,
   },
 });

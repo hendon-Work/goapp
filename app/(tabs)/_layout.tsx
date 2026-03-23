@@ -1,33 +1,54 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Colors } from '@/constants/Colors';
+import { Typography } from '@/constants/Typography';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarActiveTintColor: Colors.primary,
+        tabBarInactiveTintColor: Colors.onSurfaceVariant,
+        tabBarStyle: {
+          backgroundColor: Colors.surfaceContainerLowest,
+          borderTopWidth: 0,
+          elevation: 10,
+          shadowColor: Colors.onSurface,
+          shadowOffset: { width: 0, height: -5 },
+          shadowOpacity: 0.05,
+          shadowRadius: 10,
+          height: 60,
+          paddingBottom: 8,
+        },
+        tabBarLabelStyle: {
+          fontFamily: 'BeVietnamPro_700Bold',
+          fontSize: 11,
+          marginTop: -5,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: '검색',
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="battle"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: '배틀리그',
+        }}
+      />
+      <Tabs.Screen
+        name="raid"
+        options={{
+          title: '레이드',
+        }}
+      />
+      <Tabs.Screen
+        name="favorites"
+        options={{
+          title: '즐겨찾기',
         }}
       />
     </Tabs>
